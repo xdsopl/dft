@@ -1,0 +1,8 @@
+dft - playing with dft and radix-2 fft
+Written in 2014 by <Ahmet Inan> <xdsopl@googlemail.com>
+To the extent possible under law, the author(s) have dedicated all copyright and related and neighboring rights to this software to the public domain worldwide. This software is distributed without any warranty.
+You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+
+wanted to see how the radix-2 algorithm works and how much better accuracy you get by just using a divide and conquer algorithm.
+also implemented a dft using kahan summation to get a more accurate dft as reference for the fft result.
+
