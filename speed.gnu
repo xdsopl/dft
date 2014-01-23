@@ -1,4 +1,6 @@
 set logscale xy
+set format x "%g"
+set format y "%g"
 fft(x) = a / (x * log(x))
 dft(x) = b / (x * x)
 fit fft(x) "blah.dat" u 1:2 via a
