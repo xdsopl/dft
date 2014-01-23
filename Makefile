@@ -8,6 +8,9 @@ test: benchmark
 
 benchmark: dft.o fft.o benchmark.o stopwatch.o kahan.o
 
+blah: benchmark
+	for (( i = 1; i < 15; i++)) ; do ./benchmark $$((2**i)) ; done >> blah.dat
+
 clean:
 	rm -f *.o benchmark
 

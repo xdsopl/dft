@@ -34,10 +34,7 @@ int main(int argc, char **argv)
 	srand(time(0));
 	for (int i = 0; i < N; i++)
 		a[i] = 1.0 + I - 2.0 * (rand() + I * rand()) / RAND_MAX;
-#if 0
-	for (int i = 0; i < N; i++)
-		printf("%f %f %f %f\n", creal(a[i]), cimag(a[i]), cabs(a[i]), carg(a[i]));
-#endif
+
 	restart_sw(sw);
 	struct dft *dft_fw = alloc_dft(N, -1);
 	struct dft *dft_bw = alloc_dft(N, +1);
@@ -113,6 +110,13 @@ int main(int argc, char **argv)
 	fprintf(stderr, "%d ffts took %g seconds, thats %g ffts/second\n", FFTS, fft_time, FFTS / fft_time);
 
 	fprintf(stderr, "fft/dft speedup: %g, N = %d, N/log2(N) = %g\n", (FFTS * dft_time) / (DFTS * fft_time), N, N / log2(N));
+
+#if 0
+	for (int i = 0; i < N; i++)
+		printf("%g %g %g %g\n", creal(a[i]), cimag(a[i]), cabs(a[i]), carg(a[i]));
+#else
+	printf("%d %g %g %g %g %g\n", N, FFTS / fft_time, DFTS / dft_time, fft_error, dft_error, kahan_dft_error);
+#endif
 
 	return 0;
 }

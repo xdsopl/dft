@@ -1,3 +1,5 @@
 benchmark
 *.o
 .*.swp
+*.dat
+*.log
