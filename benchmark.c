@@ -24,8 +24,8 @@ int main(int argc, char **argv)
 	}
 
 	int CALC = 300000000;
-	int DFTS = CALC / (N * N);
-	int FFTS = CALC / (N * log2(N));
+	int DFTS = CALC / N / N;
+	int FFTS = CALC / N / log2(N);
 
 	DFTS = (DFTS & ~1) + 2;
 	FFTS = (FFTS & ~1) + 2;
