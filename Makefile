@@ -4,7 +4,7 @@ LDFLAGS = -lm -lrt
 all: benchmark
 
 test: benchmark
-	./benchmark
+	./benchmark 4096
 
 benchmark: dft.o fft.o benchmark.o stopwatch.o kahan.o
 

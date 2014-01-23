@@ -13,10 +13,16 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include "dft.h"
 #include "fft.h"
 
-int main()
+int main(int argc, char **argv)
 {
 	struct stopwatch *sw = alloc_sw();
-	int N = 4096;
+
+	int N;
+	if (argc != 2 || !(N = atoi(argv[1])) || N & (N-1)) {
+		fprintf(stderr, "usage: %s N (N must be power of 2)\n", argv[0]);
+		return 1;
+	}
+
 	int CALC = 300000000;
 	int DFTS = CALC / (N * N);
 	int FFTS = CALC / (N * log2(N));
