@@ -10,7 +10,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <stdlib.h>
 #include "fft.h"
 
-void radix2(complex *out, complex *in, complex *z, int N, int S, int L)
+void radix2(complex *out, complex *in, complex *z, int N, int S)
 {
 	if (1 == N) {
 		out[0] = in[0];
@@ -20,21 +20,21 @@ void radix2(complex *out, complex *in, complex *z, int N, int S, int L)
 		out[1] = in[0] - in[S];
 		return;
 	} else if (4 == N) {
-		complex w = z[1 << L];
+		complex w = z[S];
 		out[0] = in[0] + in[S] + in[2 * S] + in[3 * S];
 		out[1] = in[0] + w * in[S] - in[2 * S] - w * in[3 * S];
 		out[2] = in[0] - in[S] + in[2 * S] - in[3 * S];
 		out[3] = in[0] - w * in[S] - in[2 * S] + w * in[3 * S];
 		return;
 	}
-	radix2(out, in, z, N / 2, 2 * S, L + 1);
-	radix2(out + N / 2, in + S, z, N / 2, 2 * S, L + 1);
+	radix2(out, in, z, N / 2, 2 * S);
+	radix2(out + N / 2, in + S, z, N / 2, 2 * S);
 	for (int k = 0; k < N / 2; k++) {
 		int ke = k;
 		int ko = k + N / 2;
 		complex even = out[ke];
 		complex odd = out[ko];
-		complex w = z[k << L];
+		complex w = z[k * S];
 		out[ke] = even + w * odd;
 		out[ko] = even - w * odd;
 	}
@@ -42,7 +42,7 @@ void radix2(complex *out, complex *in, complex *z, int N, int S, int L)
 
 void do_fft(struct fft *fft, complex *out, complex *in)
 {
-	radix2(out, in, fft->z, fft->N, 1, 0);
+	radix2(out, in, fft->z, fft->N, 1);
 }
 
 void normalize_fft(struct fft *fft, complex *io)
