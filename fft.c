@@ -10,34 +10,32 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <stdlib.h>
 #include "fft.h"
 
+static inline void dft2(complex *out0, complex *out1, complex in0, complex in1)
+{
+	*out0 = in0 + in1;
+	*out1 = in0 - in1;
+}
+
 void radix2(complex *out, complex *in, complex *z, int N, int S)
 {
-	if (1 == N) {
-		out[0] = in[0];
-		return;
-	} else if (2 == N) {
-		out[0] = in[0] + in[S];
-		out[1] = in[0] - in[S];
-		return;
-	} else if (4 == N) {
-		complex w = z[S];
-		out[0] = in[0] + in[S] + in[2 * S] + in[3 * S];
-		out[1] = in[0] + w * in[S] - in[2 * S] - w * in[3 * S];
-		out[2] = in[0] - in[S] + in[2 * S] - in[3 * S];
-		out[3] = in[0] - w * in[S] - in[2 * S] + w * in[3 * S];
-		return;
+	switch (N) {
+		case 1:
+			out[0] = in[0];
+			return;
+		case 2:
+			dft2(out, out + 1, in[0], in[S]);
+			return;
+		case 4:
+			out[0] = in[0] + in[S] + in[2 * S] + in[3 * S];
+			out[1] = in[0] + z[S] * in[S] - in[2 * S] - z[S] * in[3 * S];
+			out[2] = in[0] - in[S] + in[2 * S] - in[3 * S];
+			out[3] = in[0] - z[S] * in[S] - in[2 * S] + z[S] * in[3 * S];
+			return;
 	}
 	radix2(out, in, z, N / 2, 2 * S);
 	radix2(out + N / 2, in + S, z, N / 2, 2 * S);
-	for (int k = 0; k < N / 2; k++) {
-		int ke = k;
-		int ko = k + N / 2;
-		complex even = out[ke];
-		complex odd = out[ko];
-		complex w = z[k * S];
-		out[ke] = even + w * odd;
-		out[ko] = even - w * odd;
-	}
+	for (int k0 = 0, k1 = N / 2; k0 < N / 2; ++k0, ++k1)
+		dft2(out + k0, out + k1, out[k0], z[k0 * S] * out[k1]);
 }
 
 void do_fft(struct fft *fft, complex *out, complex *in)
