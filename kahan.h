@@ -11,13 +11,13 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <complex.h>
 
 struct kahan {
-	complex sum;
-	complex err;
+	complex double sum;
+	complex double err;
 };
 
 void init_kahan(struct kahan *k);
-void add_kahan(struct kahan *k, complex a);
-complex get_kahan(struct kahan *k);
+void add_kahan(struct kahan *k, complex double a);
+complex double get_kahan(struct kahan *k);
 
 #endif
 

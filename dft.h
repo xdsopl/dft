@@ -11,13 +11,13 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <complex.h>
 
 struct dft {
-	complex *z;
+	complex double *z;
 	int N;
 };
 
-void do_kahan_dft(struct dft *dft, complex *out, complex *in);
-void do_dft(struct dft *dft, complex *out, complex *in);
-void normalize_dft(struct dft *dft, complex *io);
+void do_kahan_dft(struct dft *dft, complex double *out, complex double *in);
+void do_dft(struct dft *dft, complex double *out, complex double *in);
+void normalize_dft(struct dft *dft, complex double *io);
 struct dft *alloc_dft(int N, int dir);
 void free_dft(struct dft *dft);
 

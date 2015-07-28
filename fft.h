@@ -11,12 +11,12 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <complex.h>
 
 struct fft {
-	complex *z;
+	complex double *z;
 	int N;
 };
 
-void do_fft(struct fft *fft, complex *out, complex *in);
-void normalize_fft(struct fft *fft, complex *io);
+void do_fft(struct fft *fft, complex double *out, complex double *in);
+void normalize_fft(struct fft *fft, complex double *io);
 struct fft *alloc_fft(int N, int dir);
 void free_fft(struct fft *fft);
 

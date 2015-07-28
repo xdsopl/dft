@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 	DFTS = (DFTS & ~1) + 2;
 	FFTS = (FFTS & ~1) + 2;
 
-	complex a[N], b[N], c[N];
+	complex double a[N], b[N], c[N];
 	srand(time(0));
 	for (int i = 0; i < N; i++)
 		a[i] = 1.0 + I - 2.0 * (rand() + I * rand()) / RAND_MAX;

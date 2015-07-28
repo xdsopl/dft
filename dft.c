@@ -11,32 +11,32 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include "dft.h"
 #include "kahan.h"
 
-void do_kahan_dft(struct dft *dft, complex *out, complex *in)
+void do_kahan_dft(struct dft *dft, complex double *out, complex double *in)
 {
 	for (int n = 0; n < dft->N; n++) {
 		struct kahan sum;
 		init_kahan(&sum);
 		for (int k = 0; k < dft->N; k++) {
-			complex w = dft->z[(k * n) & (dft->N - 1)];
+			complex double w = dft->z[(k * n) & (dft->N - 1)];
 			add_kahan(&sum, in[k] * w);
 		}
 		out[n] = get_kahan(&sum);
 	}
 }
 
-void do_dft(struct dft *dft, complex *out, complex *in)
+void do_dft(struct dft *dft, complex double *out, complex double *in)
 {
 	for (int n = 0; n < dft->N; n++) {
-		complex sum = 0.0;
+		complex double sum = 0.0;
 		for (int k = 0; k < dft->N; k++) {
-			complex w = dft->z[(k * n) & (dft->N - 1)];
+			complex double w = dft->z[(k * n) & (dft->N - 1)];
 			sum += in[k] * w;
 		}
 		out[n] = sum;
 	}
 }
 
-void normalize_dft(struct dft *dft, complex *io)
+void normalize_dft(struct dft *dft, complex double *io)
 {
 	double factor = 1.0 / dft->N;
 	for (int n = 0; n < dft->N; n++)
@@ -46,7 +46,7 @@ void normalize_dft(struct dft *dft, complex *io)
 struct dft *alloc_dft(int N, int dir)
 {
 	struct dft *dft = malloc(sizeof(struct dft));
-	dft->z = malloc(sizeof(complex) * N);
+	dft->z = malloc(sizeof(complex double) * N);
 	for (int n = 0; n < N; n++)
 		dft->z[n] = cexp(dir * I * n * 2.0 * M_PI / N);
 	dft->N = N;

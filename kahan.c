@@ -13,15 +13,15 @@ void init_kahan(struct kahan *k)
 	k->err = 0.0;
 }
 
-void add_kahan(struct kahan *k, complex a)
+void add_kahan(struct kahan *k, complex double a)
 {
-	complex tmp = a - k->err;
-	complex sum = k->sum + tmp;
+	complex double tmp = a - k->err;
+	complex double sum = k->sum + tmp;
 	k->err = (sum - k->sum) - tmp;
 	k->sum = sum;
 }
 
-complex get_kahan(struct kahan *k)
+complex double get_kahan(struct kahan *k)
 {
 	return k->sum;
 }

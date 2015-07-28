@@ -10,13 +10,13 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <stdlib.h>
 #include "fft.h"
 
-static inline void dft2(complex *out0, complex *out1, complex in0, complex in1)
+static inline void dft2(complex double *out0, complex double *out1, complex double in0, complex double in1)
 {
 	*out0 = in0 + in1;
 	*out1 = in0 - in1;
 }
 
-void radix2(complex *out, complex *in, complex *z, int N, int S)
+void radix2(complex double *out, complex double *in, complex double *z, int N, int S)
 {
 	switch (N) {
 		case 1:
@@ -38,12 +38,12 @@ void radix2(complex *out, complex *in, complex *z, int N, int S)
 		dft2(out + k0, out + k1, out[k0], z[k0 * S] * out[k1]);
 }
 
-void do_fft(struct fft *fft, complex *out, complex *in)
+void do_fft(struct fft *fft, complex double *out, complex double *in)
 {
 	radix2(out, in, fft->z, fft->N, 1);
 }
 
-void normalize_fft(struct fft *fft, complex *io)
+void normalize_fft(struct fft *fft, complex double *io)
 {
 	double factor = 1.0 / fft->N;
 	for (int n = 0; n < fft->N; n++)
@@ -53,7 +53,7 @@ void normalize_fft(struct fft *fft, complex *io)
 struct fft *alloc_fft(int N, int dir)
 {
 	struct fft *fft = malloc(sizeof(struct fft));
-	fft->z = malloc(sizeof(complex) * (N / 2));
+	fft->z = malloc(sizeof(complex double) * (N / 2));
 	for (int n = 0; n < N / 2; n++)
 		fft->z[n] = cexp(dir * I * n * 2.0 * M_PI / N);
 	fft->N = N;
